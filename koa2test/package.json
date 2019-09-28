@@ -1,0 +1,21 @@
+{
+  "name": "koa2test",
+  "version": "1.0.0",
+  "description": "koa2Demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wjx <942778086@qq.com>",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.8.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-convert": "^1.2.0",
+    "koa-cors2": "0.0.1",
+    "koa-router": "^7.4.0",
+    "koa2-cors": "^2.0.6",
+    "mysql": "^2.17.1",
+    "node-mysql": "^0.4.2"
+  }
+}
