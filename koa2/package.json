@@ -1,7 +1,7 @@
 {
-  "name": "koa2test",
+  "name": "koa2",
   "version": "1.0.0",
-  "description": "koa2Demo",
+  "description": "quick koa2",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,7 @@
   "author": "wjx <942778086@qq.com>",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-koa": "^2.9.4",
     "koa": "^2.8.1",
     "koa-bodyparser": "^4.2.1",
     "koa-convert": "^1.2.0",
@@ -16,6 +17,8 @@
     "koa-router": "^7.4.0",
     "koa2-cors": "^2.0.6",
     "mysql": "^2.17.1",
-    "node-mysql": "^0.4.2"
+    "node-mysql": "^0.4.2",
+    "swagger2": "^1.0.5",
+    "swagger2-koa": "^1.0.4"
   }
 }
