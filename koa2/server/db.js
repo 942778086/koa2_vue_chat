@@ -1,9 +1,10 @@
 const mysql = require('mysql')
+const config = require('../config')
 const pool = mysql.createPool({
-    host     :  'localhost',
-    user     :  'root',
-    password :  '12345678',
-    database :  'koa_demo'
+    host     :  config.database.host,
+    user     :  config.database.user,
+    password :  config.database.password,
+    database :  config.database.database
 })
 
 
