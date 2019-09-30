@@ -57,9 +57,9 @@ module.exports = baseService = {
                     }
                 } else {
                     if (typeof valuesArr[i] === 'string') {
-                        field = field + keysArr[i] + '=' + '\'' + valuesArr[i] + '\'' + 'AND'
+                        field = field + keysArr[i] + '=' + '\'' + valuesArr[i] + '\'' + ' ' + 'AND' + ' '
                     } else {
-                        field = field + keysArr[i] + '=' + valuesArr[i] + 'AND'
+                        field = field + keysArr[i] + '=' + valuesArr[i] + ' ' + 'AND' + ' '
                     }
                 }
             }
@@ -115,16 +115,46 @@ module.exports = baseService = {
      * @param tableName
      * @returns {Promise<unknown>}
      */
-    async addRecord (keys, values, tableName) {
+    async addRecord (tableName, ctx) {
+        let keysArr = Object.keys(ctx.request.body)
+        let valuesArr = [];
+        for (const property in ctx.request.body) {
+            if (typeof(ctx.request.body[property]) === 'string') {
+                valuesArr.push('\'' + ctx.request.body[property] + '\'')
+            } else {
+                valuesArr.push(ctx.request.body[property])
+            }
+        }
+        const keys = keysArr.join(',')
+        const values = valuesArr.join(',')
         return baseDao.addRecord(keys, values, tableName)
     },
     /**
      * 修改记录
-     * @param sql
      * @param tableName
-     * @returns {Promise<*>}
+     * @param ctx
+     * @returns {Promise<unknown>}
      */
-    async updateRecord (sql, tableName, id) {
+    async updateRecord (tableName, ctx) {
+        let keysArr = Object.keys(ctx.request.body)
+        let valuesArr = []
+        for (const property in ctx.request.body) {
+            if (typeof(ctx.request.body[property]) === 'string') {
+                valuesArr.push('\'' + ctx.request.body[property] + '\'')
+            } else {
+                valuesArr.push(ctx.request.body[property])
+            }
+        }
+        let sqlArr = []
+        let id = ctx.request.body.id
+        for (let i = 0;i<keysArr.length;i++) {
+            if (i === keysArr.length - 1) {
+                sqlArr[i] = keysArr[i] + '=' + valuesArr[i]
+            } else {
+                sqlArr[i] = keysArr[i] + '=' + valuesArr[i] + ','
+            }
+        }
+        const sql = sqlArr.join('')
         return baseDao.updateRecord(sql, tableName, id)
     },
     /**

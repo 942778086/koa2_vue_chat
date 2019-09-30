@@ -1,4 +1,3 @@
-
 const config = {
 
     port: 3001,
@@ -11,7 +10,9 @@ const config = {
         password: '12345678',
         port: '3306',
         host: 'localhost'
-    }
+    },
+
+    token: 'thinkMore'
 }
 
 module.exports = config

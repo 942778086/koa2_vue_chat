@@ -12,7 +12,8 @@ const convert = require('koa-convert')
 const config = require('./config')
 // 读取对象插件
 const bodyparse = require('koa-bodyparser')
-// api接口文档
+// jwt
+const jwt = require('jsonwebtoken')
 
 app.use(bodyparse())
 app.use(cors())
@@ -20,6 +21,18 @@ app.use(logAsync())
 app.use(router.routes()).use(router.allowedMethods())
 app.use( async (ctx) => {
     ctx.body = router
+})
+app.use((ctx) => {
+    const token = ctx.request.header.authorization
+    if (ctx.URL.pathname !== '/login') {
+        console.log(token)
+        console.log(config.token)
+        jwt.verify(token, config.token, (error) => {
+            error ? ctx.body = 'wrong' : next();
+        });
+    }
+    console.log('out', token)
+    console.log('out', config.token)
 })
 
 app.listen({ port: config.port }, () =>

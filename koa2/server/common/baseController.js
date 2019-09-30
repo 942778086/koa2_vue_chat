@@ -46,18 +46,7 @@ module.exports = baseController =  {
      * @returns {Promise<void>}
      */
     async addRecord (tableName, ctx) {
-        let keysArr = Object.keys(ctx.request.body)
-        let valuesArr = [];
-        for (const property in ctx.request.body) {
-            if (typeof(ctx.request.body[property]) === 'string') {
-                valuesArr.push('\'' + ctx.request.body[property] + '\'')
-            } else {
-                valuesArr.push(ctx.request.body[property])
-            }
-        }
-        const keys = keysArr.join(',')
-        const values = valuesArr.join(',')
-        ctx.body = await baseService.addRecord(keys, values, tableName)
+        ctx.body = await baseService.addRecord(tableName, ctx)
     },
     /**
      * 修改记录
@@ -66,26 +55,7 @@ module.exports = baseController =  {
      * @returns {Promise<void>}
      */
     async updateRecord (tableName, ctx) {
-        let keysArr = Object.keys(ctx.request.body)
-        let valuesArr = []
-        for (const property in ctx.request.body) {
-            if (typeof(ctx.request.body[property]) === 'string') {
-                valuesArr.push('\'' + ctx.request.body[property] + '\'')
-            } else {
-                valuesArr.push(ctx.request.body[property])
-            }
-        }
-        let sqlArr = []
-        let id = ctx.request.body.id
-        for (let i = 0;i<keysArr.length;i++) {
-            if (i === keysArr.length - 1) {
-                sqlArr[i] = keysArr[i] + '=' + valuesArr[i]
-            } else {
-                sqlArr[i] = keysArr[i] + '=' + valuesArr[i] + ','
-            }
-        }
-        const sql = sqlArr.join('')
-        ctx.body = await baseService.updateRecord(sql, tableName, id)
+        ctx.body = await baseService.updateRecord(tableName, ctx)
     },
     /**
      * 根据主键删除
