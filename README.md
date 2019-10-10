@@ -1,14 +1,34 @@
-# koa_vue
-a simple demo with koa2 and vue.u can find complete front-end,back-end and sql.
+# 这是什么？
+这是一个基于koa2，vue-cli2和mysql的简单增删查改demo。koa2忽视数据库字段快速开发接口。适用于前端有基础但是后端不怎么熟练的入门者，或者需要快速开发接口的业务场景
+# 里面有什么
+koa2  
+  -集成CURD  
+  -token鉴权  
+  -静态资源及上传文件模块  
+vue  
+  -iview  
+  -axios  
 # koa2
-use the dir(common) to finish your web server quickly.as for how to use it,u can understand after reading the router.js and user.js.
-just build the CURD quickly and focus on harder bussiness  
-To drive the back-end, you just need 'npm i',then 'node index.js'
-# 后端甩锅福利
-  -'诶诶，这个接口怎么报错啊，我参数传的不对吗，有没有接口文档'  
-  -'文档没有，要命一条，自己对着数据库调参去'
+集成接口  
+  -分页查询  
+  -主键查询  
+  -条件查询  
+  -模糊查询  
+  -新增记录  
+  -修改记录  
+  -根据主键删除记录  
+  -根据id数组批量删除记录  
+原理  
+  -通过前端传输的参数，生成sql语句，数据库字段由前端提供，后端只需要设计接口名称和传入数据库表名。
+安装  
+  -npm i  
+运行  
+  -node index.js
 # vue
-it's not the focus,but it's also a small and delicate website with iview and axios.u can understand how i design this app to use the api from koa2  
-To driver the app,just 'npm i', then 'npm run dev'
-# sql
-mysql is the best choose to write a demo and build projects,it's small and easily to use.
+前端在这个demo中并不是展示的重点，但也是一个小巧的app，如果对koa2中的api参数不清楚，请参照vue  
+安装  
+npm i  
+运行  
+  -npm run dev
+  # mysql
+ 已上传数据库文件 
