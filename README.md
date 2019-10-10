@@ -1,7 +1,7 @@
 # koa_vue
 a simple demo with koa2 and vue.u can find complete front-end,back-end and sql.
 # koa2
-u can use the dir(common) to finish your web server quickly.as for how to use it,u can understand after reading the router.js and user.js.
+use the dir(common) to finish your web server quickly.as for how to use it,u can understand after reading the router.js and user.js.
 just build the CURD quickly and focus on harder bussiness  
 To drive the back-end, you just need 'npm i',then 'node index.js'
 # 后端甩锅福利
