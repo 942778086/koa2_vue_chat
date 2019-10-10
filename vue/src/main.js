@@ -12,7 +12,7 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
-  config.headers.common['Authorization'] = 'Bearer ' + token;
+  config.headers.common['Authorization'] = token;
   return config;
 })
 

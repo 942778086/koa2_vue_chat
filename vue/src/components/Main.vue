@@ -26,6 +26,18 @@
                 <FormItem label="地址">
                     <Input v-model="newUserForm.address" />
                 </FormItem>
+                <FormItem label="上传头像">
+                    <Upload
+                            :data='uploadData'
+                            :on-success="uploadSuccess"
+                            type="drag"
+                            action="http://localhost:3001/upload/ava">
+                        <div style="padding: 20px 0">
+                            <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                            <p>点击或拖动上传</p>
+                        </div>
+                    </Upload>
+                </FormItem>
             </Form>
         </Modal>
         <!--修改用户弹框-->
@@ -50,7 +62,7 @@
 </template>
 
 <script>
-
+const tool = require('../tools/tool')
     const url = 'http://localhost:3001/user'
     export default {
         name: 'HelloWorld',
@@ -65,11 +77,18 @@
                 editUserModal: false,
                 total: 10,
                 arr: [],
+                uploadData: {
+                    url: '',
+                    articleId: ''
+                },
                 newUserForm: {
                     id: 0,
                     name: '',
                     age: '',
-                    address: ''
+                    address: '',
+                    avatar: '',
+                    regDay: '2019-10-10 00:00:00',
+                    sign: '还没有签名'
                 },
                 editUserForm: {
                     name: '',
@@ -83,6 +102,23 @@
                         align: 'center'
                     },
                     {
+                        title: 'ava',
+                        key: 'avatar',
+                        width: 70,
+                        render: (h, params) => {
+                            return h('img', {
+                                attrs: {
+                                    src: params.row.avatar
+                                },
+                                style: {
+                                    width: '50px',
+                                    height: '50px',
+                                    borderRadius: '50%'
+                                }
+                            })
+                        }
+                    },
+                    {
                         title: 'Name',
                         key: 'name'
                     },
@@ -93,6 +129,10 @@
                     {
                         title: 'Address',
                         key: 'address'
+                    },
+                    {
+                        title: 'RegDate',
+                        key: 'regDay'
                     },
                     {
                         title: 'Action',
@@ -165,11 +205,20 @@
             getInfo (page) {
                 if (page) {
                     this.$axios.get(url + '/getAll?page=' + page)
-                        .then(res => { console.log(res); this.tableData = res.data.data; this.total = res.data.count })
+                        .then(res => {
+                        this.tableData = res.data.data;
+                            this.tableData.forEach(item => {
+                                item.regDay = tool.formatTime(item.regDay)
+                            })
+                        this.total = res.data.count })
                         .catch(err => { console.log(err) })
                 } else {
                     this.$axios.get(url + '/getAll?page=1')
-                        .then(res => { console.log(res); this.tableData = res.data.data; this.total = res.data.count })
+                        .then(res => { console.log(res); this.tableData = res.data.data;
+                            this.tableData.forEach(item => {
+                                item.regDay = tool.formatTime(item.regDay)
+                            })
+                        this.total = res.data.count })
                         .catch(err => { console.log(err) })
                 }
             },
@@ -230,6 +279,9 @@
                         console.log(res)
                         this.tableData = res.data.data
                     })
+            },
+            uploadSuccess (res) {
+                this.newUserForm.avatar = 'http://localhost:3001' + res.data
             }
         }
     }

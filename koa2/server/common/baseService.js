@@ -1,4 +1,5 @@
 const baseDao = require('./baseDao')
+const tool = require('../../../vue/src/tools/tool')
 
 module.exports = baseService = {
     /**
