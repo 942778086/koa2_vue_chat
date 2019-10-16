@@ -10,6 +10,7 @@
   -iview  
   -axios  
   -vue-socket.io
+  -vuex
 # koa2
 ## 集成接口  
   -分页查询  
