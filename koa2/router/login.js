@@ -7,9 +7,9 @@ module.exports = router.post('/', (ctx)=>{ return login(ctx) })
 
 
 const login = async function (ctx) {
-    const res = await baseService.getByFields('admin', ctx)
+    const res = await baseService.getByFields('user', ctx)
     const token = jwt.sign({
-        username: res.username,
+        name: res.name,
     },
         config.token,
         { expiresIn: '2h' });

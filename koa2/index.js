@@ -1,28 +1,35 @@
 const Koa = require('koa')
 const app = new Koa()
-// 跨域中间件
 const cors = require('koa2-cors')
-// 日志中间件
 const logAsync = require('./middleware/log-async')
-// 路由
 const router = require('./router/index')
-// 中间件插件
 const convert = require('koa-convert')
-// 配置
 const config = require('./config')
-// 读取对象插件
 const bodyparse = require('koa-bodyparser')
-// static 资源服务器
 const server = require('koa-static')
+const ioServer = require('http').Server(app)
+const io = require('socket.io')(ioServer)
+const socketFunc = require('./server/socket/webSocket')
 
+// 获取前端对象
 app.use(bodyparse())
+// 跨域
 app.use(cors())
+// 日志中间件
 app.use(logAsync())
-
+// 静态资源服务器
 app.use(server(__dirname, '/upload'))
-
+// 挂载路由
 app.use(router.routes()).use(router.allowedMethods())
-
+// websocket 服务器
+io.on('connection', (socket) => {
+    socketFunc(socket)
+})
+// app端口
 app.listen({ port: config.port }, () =>
     console.log(`🚀 Server ready at http://localhost:${config.port}`),
-);
+)
+// websocket 端口
+ioServer.listen(config.wsPort, () => {
+    console.log(`🚀 WebSocket Server is running at http://localhost:${config.wsPort}`)
+})

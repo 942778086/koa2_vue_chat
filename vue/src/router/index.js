@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from "../components/Login";
 import Main from "../components/Main";
+import chat from "../components/chat";
 
 Vue.use(Router)
 
@@ -17,6 +18,9 @@ export default new Router({
     }, {
       path: '/Main',
       component: Main
+    }, {
+      path: '/chat',
+      component: chat
     }
   ]
 })

@@ -50,14 +50,3 @@ module.exports = router.post('/getUserByFileds', (ctx) => { return baseControlle
  * @type {Router}
  */
 module.exports = router.post('/getUserByLikeFileds', (ctx) => { return baseController.getByLike('user', ctx) })
-
-
-// module.exports = router.get('/getAll', userController.getAll)
-//
-// module.exports = router.get('/getUser', userController.getUser)
-//
-// module.exports = router.post('/newUser', userController.newUser)
-//
-// module.exports = router.put('/editUser', userController.editUser)
-//
-// module.exports = router.delete('/deleteUser', userController.deleteUser)

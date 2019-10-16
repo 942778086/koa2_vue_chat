@@ -19,7 +19,10 @@ const tool = {
         const year = new Date(date).getFullYear()
         const month = new Date(date).getMonth() + 1
         const day = new Date(date).getDate()
-        return year + '-' + month + '-' + day
+        const hour = new Date(date).getHours()
+        const min = new Date(date).getMinutes()
+        const sec = new Date(date).getSeconds()
+        return year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec
     }
 }
 

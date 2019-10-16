@@ -2,6 +2,8 @@ const config = {
 
     port: 3001,
 
+    wsPort: 3002,
+
     commonPageSize: 6,
 
     database: {

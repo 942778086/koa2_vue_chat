@@ -3,7 +3,7 @@
         <div class="contain">
             <Input class="itemInput" v-model="username" />
             <Input class="itemInput" v-model="pwd" type="password" />
-            <div><Button type="ghost" @click="login" style="margin-top: 5%">Login</Button></div>
+            <div><Button type="primary" ghost @click="login" style="margin-top: 5%">Login</Button></div>
         </div>
     </div>
 </template>
@@ -13,14 +13,14 @@
         name: "login",
         data () {
             return {
-                username: '942778086@qq.com',
+                username: '吴建星',
                 pwd: 'ThinkYourself'
             }
         },
         methods: {
             login () {
                 const data = {
-                    username: this.username,
+                    name: this.username,
                     pwd: this.pwd
                 }
                 this.$axios.post('http://localhost:3001/login', data)
@@ -28,6 +28,7 @@
                         console.log(res)
                         if (res.data.msg === 'success') {
                             localStorage.setItem('token', res.data.token)
+                            this.$store.commit('getUserInfo', {name: data.name})
                             this.$router.push({
                                 path: '/Main'
                             })

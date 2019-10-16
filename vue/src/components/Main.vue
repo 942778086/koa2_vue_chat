@@ -1,5 +1,9 @@
 <template>
     <div class="hello">
+        <div class="header">
+            <img :src="ava" class="ava" />
+            <p>欢迎, {{ myName }}</p>
+        </div>
         <div class="btnRoom">
             <Button type="primary" class="headerBtn" @click="newUserModal = true">新增记录</Button>
             <Button type="primary" class="headerBtn" @click="mulDelete">批量删除</Button>
@@ -25,6 +29,9 @@
                 </FormItem>
                 <FormItem label="地址">
                     <Input v-model="newUserForm.address" />
+                </FormItem>
+                <FormItem label="签名">
+                    <Input v-model="editUserForm.sign" />
                 </FormItem>
                 <FormItem label="上传头像">
                     <Upload
@@ -55,6 +62,9 @@
                 </FormItem>
                 <FormItem label="地址">
                     <Input v-model="editUserForm.address" />
+                </FormItem>
+                <FormItem label="签名">
+                    <Input v-model="editUserForm.sign" />
                 </FormItem>
             </Form>
         </Modal>
@@ -87,13 +97,16 @@ const tool = require('../tools/tool')
                     age: '',
                     address: '',
                     avatar: '',
-                    regDay: '2019-10-10 00:00:00',
+                    reg_day: '2019-10-10 00:00:00',
                     sign: '还没有签名'
                 },
                 editUserForm: {
+                    id: 0,
                     name: '',
                     age: '',
-                    address: ''
+                    address: '',
+                    reg_day: '',
+                    sign: ''
                 },
                 tableCol: [
                     {
@@ -131,13 +144,13 @@ const tool = require('../tools/tool')
                         key: 'address'
                     },
                     {
-                        title: 'RegDate',
-                        key: 'regDay'
+                        title: 'sign',
+                        key: 'sign'
                     },
                     {
                         title: 'Action',
                         key: 'action',
-                        width: 150,
+                        width: 200,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -157,6 +170,20 @@ const tool = require('../tools/tool')
                                 }, '修改'),
                                 h('Button', {
                                     props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.toChat(params.row)
+                                        }
+                                    }
+                                }, '聊天'),
+                                h('Button', {
+                                    props: {
                                         type: 'error',
                                         size: 'small'
                                     },
@@ -174,25 +201,25 @@ const tool = require('../tools/tool')
                     {
                         name: 'John Brown',
                         age: 18,
-                        address: 'New York No. 1 Lake Park',
+                        sign: 'New York No. 1 Lake Park',
                         date: '2016-10-03'
                     },
                     {
                         name: 'Jim Green',
                         age: 24,
-                        address: 'London No. 1 Lake Park',
+                        sign: 'London No. 1 Lake Park',
                         date: '2016-10-01'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
-                        address: 'Sydney No. 1 Lake Park',
+                        sign: 'Sydney No. 1 Lake Park',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Jon Snow',
                         age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
+                        sign: 'Ottawa No. 2 Lake Park',
                         date: '2016-10-04'
                     }
                 ]
@@ -201,23 +228,32 @@ const tool = require('../tools/tool')
         mounted () {
             this.getInfo()
         },
+        computed: {
+            ava() {
+                return this.$store.state.userInfo.avatar
+            },
+            myName() {
+                return this.$store.state.userInfo.name
+            }
+        },
         methods: {
             getInfo (page) {
                 if (page) {
                     this.$axios.get(url + '/getAll?page=' + page)
                         .then(res => {
                         this.tableData = res.data.data;
-                            this.tableData.forEach(item => {
-                                item.regDay = tool.formatTime(item.regDay)
-                            })
+                            // this.tableData.forEach(item => {
+                            //     item.regDay = tool.formatTime(item.regDay)
+                            // })
                         this.total = res.data.count })
                         .catch(err => { console.log(err) })
                 } else {
                     this.$axios.get(url + '/getAll?page=1')
                         .then(res => { console.log(res); this.tableData = res.data.data;
-                            this.tableData.forEach(item => {
-                                item.regDay = tool.formatTime(item.regDay)
-                            })
+                        console.log(res)
+                        // this.tableData.forEach(item => {
+                            //     item.regDay = tool.formatTime(item.regDay)
+                            // })
                         this.total = res.data.count })
                         .catch(err => { console.log(err) })
                 }
@@ -233,6 +269,7 @@ const tool = require('../tools/tool')
             showEdit (data) {
                 this.editUserModal = true
                 this.editUserForm = data.row
+                console.log(data.row)
             },
             delete (id) {
                 this.$axios.delete(url + '/deleteUser?id=' + id)
@@ -256,7 +293,8 @@ const tool = require('../tools/tool')
                     id: this.editUserForm.id,
                     name: this.editUserForm.name,
                     age: this.editUserForm.age,
-                    address: this.editUserForm.address
+                    address: this.editUserForm.address,
+                    sign: this.editUserForm.sign
                 }
                 this.$axios.put(url + '/editUser', data)
                     .then(res => { this.getInfo() })
@@ -282,6 +320,11 @@ const tool = require('../tools/tool')
             },
             uploadSuccess (res) {
                 this.newUserForm.avatar = 'http://localhost:3001' + res.data
+            },
+            toChat (row){
+                this.$router.push({
+                    path: `/chat?id=${row.id}&&name=${row.name}&&friendAva=${row.avatar}`
+                })
             }
         }
     }
@@ -291,7 +334,7 @@ const tool = require('../tools/tool')
 <style scoped>
     .hello{
         position: absolute;
-        width: 100%;
+        min-width: 100%;
         height: 100%;
         top: 0;
         left: 0;
@@ -304,7 +347,7 @@ const tool = require('../tools/tool')
         width: 1200px;
         height: 100px;
         margin: 100px auto 0 auto;
-        background-color: #52d094;
+        background-color: #49a8ba;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -317,5 +360,17 @@ const tool = require('../tools/tool')
     }
     .headerBtn{
         margin: auto 0 auto 30px;
+    }
+    .header{
+        position: absolute;
+        width: 100%;
+        background-color: #4390d0;
+        border: 1px solid white;
+        color: white;
+        font-size: 20px;
+    }
+    .ava{
+        width: 70px;
+        border-radius: 50%;
     }
 </style>
