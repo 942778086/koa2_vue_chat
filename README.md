@@ -9,7 +9,7 @@
 ## vue  
   -iview  
   -axios  
-  -vue-socket.io
+  -vue-socket.io  
   -vuex
 # koa2
 ## 集成接口  
