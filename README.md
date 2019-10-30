@@ -1,6 +1,9 @@
 # 这是什么？
 这是一个基于koa2，vue-cli2和mysql的简单增删查改与聊天功能的webapp。koa2忽视数据库字段快速开发接口。适用于前端有基础但是后端不怎么熟练的入门者，或者需要快速开发接口的业务场景  
 [在线体验（wjxweb.cn:8000）](http://www.wjxweb.cn:8000)
+# 示例
+![image](http://www.wjxweb.cn:3001/upload/ava/exam.png)  
+![image](https://recordit.co/nCWSsJCL8G)
 # 里面有什么
 ## koa2  
   -集成CURD  
